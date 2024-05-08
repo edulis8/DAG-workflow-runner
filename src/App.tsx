@@ -3,10 +3,16 @@ import './App.css';
 import { runWorkflow } from './utils/utils';
 
 function App() {
-  // const [count, setCount] = useState(0);
+  const [workflowOutput, setWorkflowOutput] = useState<
+    { node: string; startSecond: number }[]
+  >([]);
 
   function handleTaskRunnerStart() {
-    runWorkflow();
+    setWorkflowOutput([]);
+    const addNodeToWorkflowOutput = (node: string, startSecond: number) => {
+      setWorkflowOutput((prevOutput) => [...prevOutput, { node, startSecond }]);
+    };
+    runWorkflow(addNodeToWorkflowOutput);
   }
 
   return (
@@ -16,6 +22,13 @@ function App() {
       <button type="button" onClick={handleTaskRunnerStart}>
         Start Task Runner
       </button>
+      <section className="task-display">
+        {workflowOutput.map((node, index) => (
+          <div key={index}>
+            Node {node.node} visited at {node.startSecond} seconds
+          </div>
+        ))}
+      </section>
     </>
   );
 }

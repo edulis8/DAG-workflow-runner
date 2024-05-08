@@ -1,5 +1,5 @@
-export function runWorkflow() {
-  printNodesWithDelays(nonTreeDAGJson);
+export function runWorkflow(cb: (node: string, startSecond: number) => void) {
+  return printNodesWithDelays(nonTreeDAGJson, cb);
 }
 
 const exampleGraphJson = {
@@ -18,7 +18,7 @@ const nonTreeDAGJson = {
   A: { start: true, edges: { B: 5, C: 7 } },
   B: { edges: { D: 3 } },
   C: { edges: { D: 2, E: 1 } },
-  D: { edges: {} },
+  D: { edges: { A: 21 } },
   E: { edges: { D: 4 } },
 };
 
@@ -37,43 +37,44 @@ const nonTreeDAGJson = {
        "D" should be printed 3 times at 8, 9, 12 seconds
 */
 
-function printNodesWithDelays(adjacencyMap: {
-  [key: string]: { start?: boolean; edges: { [key: string]: number } };
-}) {
+function printNodesWithDelays(
+  adjacencyMap: {
+    [key: string]: { start?: boolean; edges: { [key: string]: number } };
+  },
+  callback: (node: string, startSecond: number) => void,
+) {
   if (isCyclic(adjacencyMap)) {
     console.error('The graph contains a cycle. Aborting...');
     return;
   }
-  console.log('=============');
-  // Find the start node
+
   const startNode = Object.keys(adjacencyMap).find(
     (node) => adjacencyMap[node].start,
   );
 
-  if (startNode) {
-    // Call dfs with the start node and a delay of 0
-    dfs(startNode, 0);
-  } else {
+  if (!startNode) {
     console.error('No start node found');
+    return;
   }
 
-  // Function to visit a node in the graph
   const startTime = new Date().getTime();
+
   function dfs(node: string, delay: number) {
     setTimeout(() => {
-      console.log(
-        node,
-        Math.floor(Number(new Date().getTime() - Number(startTime)) / 1000),
+      const startSecond = Math.floor(
+        Number(new Date().getTime() - Number(startTime)) / 1000,
       );
-      // For each edge going out of the node
+      console.log(`Node ${node} visited at ${startSecond} seconds`);
+      callback(node, startSecond);
       for (const [neighbor, neighborDelay] of Object.entries(
         adjacencyMap[node].edges,
       )) {
-        // recursively DFS on the neighbor, with its delay
         dfs(neighbor, neighborDelay * 1000);
       }
     }, delay);
   }
+
+  dfs(startNode, 0);
 }
 
 function isCyclic(adjacencyMap: {

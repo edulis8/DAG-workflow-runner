@@ -5,18 +5,16 @@ import { runWorkflow } from './utils/utils';
 function App() {
   // const [count, setCount] = useState(0);
 
-  function handleButtonClick() {
+  function handleTaskRunnerStart() {
     runWorkflow();
   }
 
   return (
     <>
-      <div>hi </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <button type="button" onClick={handleButtonClick}>
-        click me
+      <h1>Task Runner</h1>
+      <p className="">Click the button to start the task runner.</p>
+      <button type="button" onClick={handleTaskRunnerStart}>
+        Start Task Runner
       </button>
     </>
   );

@@ -30,6 +30,9 @@ seconds later print C. This graph, represented as JSON, would look something lik
 
 ## Walkthrough
 
+# Summary
+A React UI for running the workflow runner on a DAG, along with some instructional links and example DAGs with different types of edges. Includes a graph with a cycle (not technically a DAG!) for instructional purposes.
+
 # App.tsx
 
 A component including a textarea form for user input, and a section that provides information about the task runner and how it traverses a graph.

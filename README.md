@@ -1,10 +1,13 @@
 # Workflow Runner
 
+![Workflow Runner Image](./src/assets/bighat_example_graph.png)
+
 ## How to Run
 
 - clone with git
 - `npm install`
 - `npm run dev`
+- navigate to `http://localhost:5173/` or other port indicated by Vite in your terminal.
 - Testing: `npm test`
 
 ## Description
@@ -35,19 +38,19 @@ Form: The form is used to submit JSON data that follows the Directed Acyclic Gra
 
 Graph Examples: An expandable area shows example graphs to use in the form.
 
-Upon submitting the form, the user provided JSON is validated for errors in the JSON itself, or for violations of the pattern.
+Upon submitting the form, the user provided JSON is validated for errors in the JSON itself, or for violations of the pattern. If an error in the JSON or the graph pattern is found, the user will receive a message in a red box below the form.
 
 # GraphExample.tsx
 
-A helper component to display a graph example.
+A helper component to display a graph example, and populate the form with its JSON upon a button click.
 
 # graph-utils.ts
 
 Contains definitions of several example directed acyclic graphs (DAGs) and a function `printNodesWithDelays`. 
 
-Example Graphs: used in tests, and to display some examples to the user in the UI. They are instructional with regards to the different types of edges that can occur in a DAG or perhaps violate the DAG principle and contain a cycle.
+Example Graphs: used in tests, and to display some examples to the user in the UI. They are instructional with regards to the different types of edges that can occur in a DAG, or perhaps violate the DAG principle and contain a cycle.
 
-`printNodesWithDelays`: This function traverses a graph in a depth-first manner, starting from a start node. It prints the name of each node it visits and the time elapsed since the start of the traversal in seconds. The traversal is delayed by a certain amount of time at each node. The function takes a graph object and a callback that the calling component passes to it.
+`printNodesWithDelays`: This function traverses a graph in a depth-first manner, starting from a start node. It prints the name of each node it visits and the time elapsed since the start of the traversal in seconds. The traversal is delayed by a certain amount of time at each node. The function takes a graph object and a callback that the calling component passes to it, so the App component can update its state and display the node at the correct time.
 
 Before starting the traversal, the function checks if the graph contains a cycle using the isCyclic function. If a cycle is detected, an error is thrown. This is because the function is designed to work with DAGs, which by definition cannot contain cycles.
 
@@ -60,14 +63,14 @@ If it does not, the user will receive an error message describing the problem.
 The `isCyclic` function checks if a graph contains a cycle, which would cause an infinite loop in the workflow runner. It uses a DFS traversal algorithm to detect a cycle.
 
 # App.css
-The styling of the form and the UI.
+Styling for the UI using vanilla CSS.
 
 # graph-utils.test.ts
 Tests on the core depth-first traversal logic and wait times. Uses sinon to mock the clock and simulate the passage of time, and to fake the callback function passed to `printNodesWithDelays`
 
 # validation-utils.ts
-Tests for graph validation checking functions.
+Tests for graph validation checking functions and the errors they throw.
 
 # Future Improvement Ideas:
 - Disable button while task runner is in progress. Will involve a mechanism for checking when all the timeouts are done. Perhaps a preprocessing step.
-- Show a visualization of the graph as the task runner traverses it, [something similar to this:](https://visualgo.net/en/dfsbfs)
+- Show a visualization of the graph as the task runner traverses it, [something similar to this.](https://visualgo.net/en/dfsbfs)

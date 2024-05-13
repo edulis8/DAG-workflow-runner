@@ -69,7 +69,7 @@ export function printNodesWithDelays(
   );
 
   if (!startNode) {
-    console.error('No start node found');
+    console.error('No start node found.');
     return;
   }
 

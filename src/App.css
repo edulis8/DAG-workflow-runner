@@ -101,12 +101,13 @@ details[open] {
     rgba(252, 194, 195, 0.25) 0px 1px 1px,
     rgba(252, 194, 195, 0.13) 0px 0px 1px 1px;
   padding: 15px;
-  margin: 5px 0 15px 0;
+  margin: 10px 0 15px 0;
   width: 40vw;
 }
 
 /* source: https://getcssscan.com/css-buttons-examples */
 .button-submit {
+  margin: 10px 0 0 0;
   background-color: rgb(255, 255, 255);
   border: 0;
   border-radius: 0.5rem;
@@ -155,4 +156,9 @@ details[open] {
 
 .button-submit:focus-visible {
   box-shadow: none;
+}
+
+.subtle {
+  color: #666;
+  font-size: 90%;
 }

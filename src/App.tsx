@@ -10,7 +10,7 @@ import {
   EXAMPLE_DAG_BACK_EDGE,
 } from './utils/graph-utils';
 import { GraphType } from './types/types';
-import { isGraphType } from './utils/validation-utils';
+import { validateGraph } from './utils/validation-utils';
 import { GraphExample } from './GraphExample';
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
     try {
       const parsedJson = JSON.parse(jsonInput);
 
-      if (isGraphType(parsedJson)) {
+      if (validateGraph(parsedJson)) {
         const json: GraphType = parsedJson;
         setWorkflowOutput([]);
         printNodesWithDelays(json, addNodeToWorkflowOutput);
@@ -123,6 +123,12 @@ function App() {
               value={jsonInput}
               onChange={(event) => setJsonInput(event.target.value)}
             />
+            <div className="subtle">
+              Note: There should be exactly one start node in the graph. The
+              keys in the edges object must be strings, and the values
+              (representing the wait times) must be numbers. Each key in the
+              edges object must also exist as a key in the parent object.
+            </div>
             {error && <div className="error-message">Error: {error}</div>}
           </div>
           <button className="button-submit" type="submit">

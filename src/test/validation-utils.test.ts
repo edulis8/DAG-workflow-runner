@@ -1,27 +1,27 @@
 import { describe, test } from 'vitest';
 import { expect } from 'expect';
-import { isGraphType, isCyclic } from '../utils/validation-utils';
+import { validateGraph, isCyclic } from '../utils/validation-utils';
 
-describe('isGraphType', () => {
+describe('validateGraph', () => {
   test('should throw an error if the provided object is not an object or is null', () => {
-    expect(() => isGraphType(null)).toThrow(
+    expect(() => validateGraph(null)).toThrow(
       'Provided object is not an object or is null',
     );
-    expect(() => isGraphType('not an object')).toThrow(
+    expect(() => validateGraph('not an object')).toThrow(
       'Provided object is not an object or is null',
     );
   });
 
   test('should throw an error if a node is not an object or is null', () => {
     const invalidGraph = { node1: null };
-    expect(() => isGraphType(invalidGraph)).toThrow(
+    expect(() => validateGraph(invalidGraph)).toThrow(
       'Node node1 is not an object or is null',
     );
   });
 
   test('should throw an error if edges of a node is not an object or is null', () => {
     const invalidGraph = { node1: { start: true, edges: null } };
-    expect(() => isGraphType(invalidGraph)).toThrow(
+    expect(() => validateGraph(invalidGraph)).toThrow(
       'Edges of node node1 is not an object or is null',
     );
   });
@@ -31,7 +31,7 @@ describe('isGraphType', () => {
       node1: { start: true, edges: {} },
       node2: { start: true, edges: {} },
     };
-    expect(() => isGraphType(invalidGraph)).toThrow(
+    expect(() => validateGraph(invalidGraph)).toThrow(
       'There should be exactly one start node',
     );
   });
@@ -41,7 +41,17 @@ describe('isGraphType', () => {
       node1: { start: true, edges: { node2: 1 } },
       node2: { edges: {} },
     };
-    expect(isGraphType(validGraph)).toBe(true);
+    expect(validateGraph(validGraph)).toBe(true);
+  });
+
+  test('should throw an error if an edge key does not exist in the parent object', () => {
+    const invalidGraph = {
+      node1: { start: true, edges: { node2: 1 } },
+      node2: { edges: { node3: 1 } },
+    };
+    expect(() => validateGraph(invalidGraph)).toThrowError(
+      'Edge key node3 of node node2 does not exist in the parent object',
+    );
   });
 });
 

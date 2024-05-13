@@ -1,83 +1,73 @@
-# workflow runner
+# Workflow Runner
 
-Requirements:
-Write a workflow runner that can accept the specification of a workflow in the form of a DAG
-represented in JSON where letters are assigned to the vertices and numbers are assigned to
-the edges. One node will be designated as the start vertex.
+## How to Run
 
-As the runner goes through the graph it should print the letter of each vertex it visits. Next, for
-each edge e1 going out of a vertex wait t1 seconds before traveling to the connected vertex where t1 is the number that is tied to edge e1.
+- clone with git
+- `npm install`
+- `npm run dev`
+- Testing: `npm test`
 
-Note: The runner should process edges in parallel so that it starts the “timer” for each edge
-going out of a vertex at the same time after printing the vertex letter. 
+## Description
+A workflow runner that can accept the specification of a workflow in the form of a DAG represented in JSON where letters are assigned to the vertices and numbers are assigned to the edges. One node will be designated as the start vertex.
+
+As the task runner traverses the graph, it should display the name of each visited node, starting from the start node. Then, for every edge emanating from a node, the runner should pause for a certain number of seconds before moving to the connected vertex. This pause duration corresponds to the number associated with the edge.
+
+Note: The runner processes edges in parallel so that it starts the “timer” for each edge going out of a vertex at the same time after printing the vertex letter.
 
 The runner should start by immediately printing A, then after 5 seconds print B, and then 2
 seconds later print C. This graph, represented as JSON, would look something like:
+
+```json
 {
 "A": {"start": true, "edges": {"B": 5, "C": 7}},
 "B": {"edges": {}},
 "C": {"edges": {}}
 }
+```
 
+## Walkthrough
 
-Once you are ready to submit, you can respond to this email with an attachment or info on how to find your code on a site like GitHub.
+# App.tsx
 
+A component including a textarea form for user input, and a section that provides information about the task runner and how it traverses a graph.
 
-Your solution will be evaluated based on the following criteria:
-[] Application of Knowledge: The effectiveness of your knowledge in solving the challenge.
-[] Code Quality and Efficiency: The quality, readability, and efficiency of your code.
-[] Clarity of Documentation: How clear, complete, and well-organized the documentation
-accompanying your solution is. This includes comments in the code, an explanation of
-your approach, and any assumptions made.
-[] Testing: The thoroughness of the tests added to the project, including whether they
-cover critical code paths and input validation.
+Form: The form is used to submit JSON data that follows the Directed Acyclic Graph (DAG) pattern. 
 
+Graph Examples: An expandable area shows example graphs to use in the form.
 
-You are expected to deliver a set of artifacts for evaluation, including:
-[] Runnable Software: Code, in the language of your choice, that delivers the requested
-functionality.
-[] Execution Method: A driver, main function, etc., that can execute test cases against
-your code.
-[] Tests: Demonstrations of the requested functionality.
-[] A README File: This should contain instructions and/or tooling for executing (andbuilding, if applicable) your program, along with any documentation you deem important for understanding your approach, design, and choices.
+Upon submitting the form, the user provided JSON is validated for errors in the JSON itself, or for violations of the pattern.
 
+# GraphExample.tsx
 
+A helper component to display a graph example.
 
-Re: Coding Assignment
+# graph-utils.ts
 
-[] On DAG validation: Either make the assumption and list it in the README or validate that the input isn't a DAG.
+Contains definitions of several example directed acyclic graphs (DAGs) and a function `printNodesWithDelays`. 
 
-[] Web interface.... is not required. However, it's up to you how you want to show off your skills. If you'd like to make the web interface and spend less time on, say, writing validation logic, that would be a way to save some time.
+Example Graphs: used in tests, and to display some examples to the user in the UI. They are instructional with regards to the different types of edges that can occur in a DAG or perhaps violate the DAG principle and contain a cycle.
 
+`printNodesWithDelays`: This function traverses a graph in a depth-first manner, starting from a start node. It prints the name of each node it visits and the time elapsed since the start of the traversal in seconds. The traversal is delayed by a certain amount of time at each node. The function takes a graph object and a callback that the calling component passes to it.
 
-Q: Given that the prompt mentions JSON and not JS objects, should I assume I need to read a JSON file, or perhaps even have the user upload a JSON file if there’s a web user interface?
-A: Yeah a JSON file. Though if you build a web interface 
-  [] you could just accept JSON input. 
+Before starting the traversal, the function checks if the graph contains a cycle using the isCyclic function. If a cycle is detected, an error is thrown. This is because the function is designed to work with DAGs, which by definition cannot contain cycles.
 
+# validation-util.ts
 
-Q: Would “D” be printed the first time it is hit (after 8s), or three times total after 8, 9, and 12s?
-My assumption would be the latter, but not sure.
+The `validateGraph` function checks if a given object follows the DAG pattern that is expected by the workflow runner. 
 
-A: It would be printed three times at the times you stated.
+If it does not, the user will receive an error message describing the problem.
 
+The `isCyclic` function checks if a graph contains a cycle, which would cause an infinite loop in the workflow runner. It uses a DFS traversal algorithm to detect a cycle.
 
+# App.css
+The styling of the form and the UI.
 
+# graph-utils.test.ts
+Tests on the core depth-first traversal logic and wait times. Uses sinon to mock the clock and simulate the passage of time, and to fake the callback function passed to `printNodesWithDelays`
 
-validation
+# validation-utils.ts
+Tests for graph validation checking functions.
 
-The isGraphType function checks if a given object follows the pattern of a GraphType. Here's the pattern in plain English:
-
-The object itself must be an object and not null.
-Each key in the object represents a node in the graph. The key is a string and the value is a NodeType object.
-A NodeType object must also be an object and not null. It has two properties:
-start: A boolean indicating whether this node is the start node of the graph. There should be exactly one start node in the graph.
-edges: An object where each key-value pair represents an edge from this node to another node. The key is a string representing the other node, and the value is a number representing the weight of the edge.
-If the object doesn't follow this pattern, the function will throw an error with a message explaining what's wrong.
-If the object does follow this pattern, the function will return true.
-
-
-
-
-would improve:
-- disable button while task runner is in progress, or rename it to "reset"
-- show a visualization of the graphs
+# Future Improvement Ideas:
+- Disable button while task runner is in progress. Will involve a mechanism for checking when all the timeouts are done. Perhaps a preprocessing step.
+- Show a visualization of the graph as the task runner traverses it, [something similar to this:](https://visualgo.net/en/dfsbfs)

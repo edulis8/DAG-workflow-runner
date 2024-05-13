@@ -1,6 +1,6 @@
 import { GraphType, NodeType } from '../types/types';
 
-export function isGraphType(obj: unknown): obj is GraphType {
+export function validateGraph(obj: unknown): boolean {
   if (typeof obj !== 'object' || obj === null) {
     throw new Error('Provided object is not an object or is null');
   }
@@ -28,6 +28,13 @@ export function isGraphType(obj: unknown): obj is GraphType {
       if (typeof edgeKey !== 'string' || typeof edgeValue !== 'number') {
         throw new Error(
           `Edge key ${edgeKey} of node ${key} is not a string or edge value is not a number`,
+        );
+      }
+
+      // check if the edge key exists in the parent object
+      if (!recordObj.hasOwnProperty(edgeKey)) {
+        throw new Error(
+          `Edge key ${edgeKey} of node ${key} does not exist in the parent object`,
         );
       }
     }

@@ -5,38 +5,154 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.container {
+  margin-bottom: 10vh;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.example {
+  display: block;
+  text-align: left;
+  padding: 10px;
+  margin: 1rem 0;
+  background-color: hsl(0, 0%, 96%);
+  border-radius: 5px;
+  overflow-x: auto;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #333;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.flex-col-wrapper {
+  margin: 18px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+textarea {
+  display: block;
+  width: 40vw;
+  padding: 10px;
+  margin: 1rem 0;
+  background-color: hsl(0, 0%, 98%);
+  border: 2px solid hsl(0, 0%, 80%);
+  border-radius: 5px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #333;
+}
+
+.flex-row-wrapper {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.graph-example {
+  width: 70%;
+  height: auto;
+  image-rendering: auto;
 }
 
 .card {
-  padding: 2em;
+  padding: 10px;
+  box-shadow:
+    rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
 }
 
-.read-the-docs {
-  color: #888;
+.explanation {
+  width: 80vw;
+  font-size: 90%;
+  text-align: left;
+}
+
+label {
+  font-weight: 800;
+}
+
+details {
+  cursor: pointer;
+  width: 100%;
+  border-radius: 4px;
+  padding: 0.5rem 0.5rem 0;
+}
+
+summary {
+  font-weight: 600;
+  margin: -0.5rem -0.5rem 0;
+  padding: 0.5rem;
+}
+
+details[open] {
+  padding: 0.5rem;
+}
+
+.error-message {
+  background-color: rgb(252, 228, 228);
+  box-shadow:
+    rgba(252, 194, 195, 0.25) 0px 1px 1px,
+    rgba(252, 194, 195, 0.13) 0px 0px 1px 1px;
+  padding: 15px;
+  margin: 5px 0 15px 0;
+  width: 40vw;
+}
+
+/* source: https://getcssscan.com/css-buttons-examples */
+.button-submit {
+  background-color: rgb(255, 255, 255);
+  border: 0;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  color: #111827;
+  font-family:
+    "Inter var",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    system-ui,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  text-decoration: none rgb(209, 213, 219) solid;
+  text-decoration-thickness: auto;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-submit:hover {
+  background-color: rgb(249, 250, 251);
+}
+
+.button-submit:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.button-submit:focus-visible {
+  box-shadow: none;
 }

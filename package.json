@@ -1,5 +1,5 @@
 {
-  "name": "bighat",
+  "name": "DAG Workflow Runner",
   "private": true,
   "version": "0.0.0",
   "type": "module",

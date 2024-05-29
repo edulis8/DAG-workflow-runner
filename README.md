@@ -1,6 +1,6 @@
 # Workflow Runner
 
-![Workflow Runner Image](./src/assets/bighat_example_graph.png)
+![Workflow Runner Image](./src/assets/example_graph.png)
 
 ## How to Run
 
